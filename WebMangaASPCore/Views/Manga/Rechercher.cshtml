@@ -1,0 +1,66 @@
+﻿@model System.Data.DataTable;
+@using System.Data;
+@{
+	ViewBag.Title = "Modifier";
+	Layout = "~/Views/Shared/_LayoutManga.cshtml";
+}
+<h2>Rechercher un manga</h2>
+@if (Model != null)
+{
+	@using (Html.BeginForm("Rechercher", "Manga", FormMethod.Post))
+	{
+		@Html.AntiForgeryToken()
+		<div class="card col-8 mx-auto mt-5">
+			<div class="card-body">
+				<h3 class="card-title">Rechercher un Manga</h3>
+				<div class="form-horizontal">
+					<hr />
+					@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+										<div class="input-group mb-3">
+						<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+							<span class="input-group-text" id="scenariste-input">Titre : </span>
+						</div>
+						<select name="titre" class="form-select" id="recherche">
+							<option value="">Recherche Libre</option>
+							@foreach (DataRow dataRow in Model.Rows)
+							{
+								<option value="@dataRow.ItemArray[0].ToString()">
+									@dataRow.ItemArray[0].ToString()
+								</option>
+							}
+
+							}
+						</select>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+							<span class="input-group-text" id="recherche-libre-input">Recherche libre : </span>
+						</div>
+						<input name="titre_libre" type="text" class="form-control" id="recherche-libre" />
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-offset-2 col-md-10">
+							<input type="submit" value="Enregistrer" class="btn btn-primary" required />
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	}
+
+	@section Scripts
+ {
+	<script type="text/javascript">
+		const recherche = document.querySelector("#recherche");
+		const require = document.querySelector("#recherche-libre");
+		recherche.addEventListener("change", handleRequired)
+
+		function handleRequired(event) {
+			event.target.value !== "" ? require.removeAttribute("required") : require.setAttribute("required", "");
+		}
+	</script>
+	}
+}
