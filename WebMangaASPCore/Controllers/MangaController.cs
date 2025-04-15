@@ -109,7 +109,48 @@ namespace WebMangaASPCore.Controllers
 			return View("Index", mesMangas);
         }
 
-        public bool LoggedIn()
+        public IActionResult Ajouter()
+        {
+
+			if (!LoggedIn())
+				return RedirectToAction("Index", "Home");
+			System.Data.DataTable mesDessinateurs = null;
+			System.Data.DataTable mesScenaristes = null;
+			System.Data.DataTable mesGenres = null;
+			try
+            {
+				mesDessinateurs = ServiceManga.GetTousLesDessinateurs();
+				mesScenaristes = ServiceManga.GetTousLesScenaristes();
+				mesGenres = ServiceManga.GetTousLesGenres();
+				ViewBag.Dessinateurs = mesDessinateurs;
+				ViewBag.Scenaristes = mesScenaristes;
+				ViewBag.Genres = mesGenres;
+			} catch(MonException e)
+            {
+				ModelState.AddModelError("Erreur", "Erreur lors de la récupération des mangas : " + e.Message);
+			}
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Ajouter(Manga unM)
+        {
+			if (!LoggedIn())
+				return RedirectToAction("Index", "Home");
+			try
+			{
+				ServiceManga.AddManga(unM);
+				return RedirectToAction("Index", "Home");
+			}
+			catch (MonException e)
+			{
+				return NotFound();
+			}
+		}
+
+
+		public bool LoggedIn()
         {
             return (HttpContext.Session.GetString("login") != null && HttpContext.Session.GetString("role") == "Admin");
         }

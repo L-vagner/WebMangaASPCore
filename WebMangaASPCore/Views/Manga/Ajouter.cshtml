@@ -1,0 +1,96 @@
+﻿@model WebMangaASPCore.Models.Metier.Manga
+@using System.Data;
+@{
+	ViewBag.Title = "Ajout";
+	Layout = "~/Views/Shared/_LayoutManga.cshtml";
+}
+<h2>Ajout de manga</h2>
+@using (Html.BeginForm("Ajouter", "Manga", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	<div class="card col-8 mx-auto mt-5">
+		<div class="card-body">
+			<h3 class="card-title">Ajouter un Manga</h3>
+			<div class="form-horizontal">
+				<hr />
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				<!-- Dessinateur -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+						<span class="input-group-text" id="scenariste-input">Dessinateur : </span>
+					</div>
+					<select name="Id_dessinateur" class="form-select">
+						@{
+							foreach (DataRow dessinateur in ViewBag.Dessinateurs.Rows)
+							{
+								<option value="@dessinateur[0]">
+									@dessinateur[1]
+								</option>
+							}
+						}
+					</select>
+				</div>
+				<!-- Scénariste -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+						<span class="input-group-text" id="scenariste-input">Scénariste : </span>
+					</div>
+					<select name="Id_scenariste" class="form-select">
+						@{
+							foreach (DataRow scenariste in ViewBag.Scenaristes.Rows)
+							{
+								<option value="@scenariste[0]">
+									@scenariste[1]
+								</option>
+							}
+
+						}
+					</select>
+				</div>
+				<!-- Prix -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+						<span class="input-group-text" id="prix-input">Prix : </span>
+					</div>
+					<input name="Prix" type="text" class="form-control" id="Prix" />
+				</div>
+				<!-- Titre Manga -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+						<span class="input-group-text" id="titre-input">Titre du manga : </span>
+					</div>
+					<input name="Titre" type="text" class="form-control" id="Titre" />
+				</div>
+				<!-- Couverture Manga -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+						<span class="input-group-text" id="titre-input">Couverture : </span>
+					</div>
+					<input name="Couverture" type="text" class="form-control" id="Couverture" />
+				</div>
+				<!-- Genre Manga -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+						<span class="input-group-text" id="titre-input">Genre du manga : </span>
+					</div>
+					<select name="Id_genre" class="form-select">
+						@{
+							foreach (DataRow genre in ViewBag.genres.Rows)
+							{
+								<option value="@genre[0]">
+									@genre[1]
+								</option>
+							}
+						}
+					</select>
+				</div>
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-10">
+						<input type="submit" value="Enregistrer" class="btn btn-primary" />
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+}
