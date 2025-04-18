@@ -33,11 +33,11 @@ namespace WebMangaASPCore.Models.Dao
 		{
 			DataTable dt;
 			Manga unManga = null;
-			Serreurs er = new Serreurs("Erreur sur lecture des Mangas", "ServiceManga.GetunManga()");
+			Serreurs er = new Serreurs("Erreur sur la lecture d'un Manga", "ServiceManga.GetunManga()");
 			try
 			{
 				String mysql = "SELECT id_manga, id_genre, id_dessinateur, id_scenariste, titre, prix, couverture ";
-				mysql += "from Manga ";
+				mysql += "from manga ";
 				mysql += "where id_manga = " + id;
 				dt = DBInterface.Lecture(mysql, er);
 				if (dt.IsInitialized && dt.Rows.Count > 0)
@@ -67,7 +67,7 @@ namespace WebMangaASPCore.Models.Dao
 			String preparedTitre = unM.Titre.Replace("\'", "\'\'");
 			String preparedCouverture = unM.Couverture.Replace("\'", "\'\'");
 			Serreurs er = new Serreurs("Erreur sur l'ecriture des Mangas", "ServiceManga.UpdateManga()");
-			String requete = "UPDATE Manga SET "
+			String requete = "UPDATE manga SET "
 					+ "id_scenariste = " + unM.Id_scenariste
 					+ ", id_dessinateur = " + unM.Id_dessinateur
 					+ ", id_genre = " + unM.Id_genre
@@ -90,7 +90,7 @@ namespace WebMangaASPCore.Models.Dao
 			String preparedTitre = unM.Titre.Replace("\'", "\'\'");
 			String preparedCouverture = unM.Couverture.Replace("\'", "\'\'");
 			Serreurs er = new Serreurs("Erreur sur l'ecriture des Mangas", "ServiceManga.UpdateManga()");
-			String requete = "INSERT INTO Manga (id_dessinateur, id_scenariste, id_genre, titre, prix, couverture) "
+			String requete = "INSERT INTO manga (id_dessinateur, id_scenariste, id_genre, titre, prix, couverture) "
 					+ "values(" + unM.Id_scenariste
 					+ " , " + unM.Id_dessinateur
 					+ " , " + unM.Id_genre
@@ -187,7 +187,7 @@ namespace WebMangaASPCore.Models.Dao
 		{
 
 			DataTable mesMangas;
-			Serreurs er = new Serreurs("Erreur sur le lecture des Mangas", "Manga.getMangas()");
+			Serreurs er = new Serreurs("Erreur sur la lecture des Mangas", "Manga.getMangas()");
 			try
 			{
 				String mysql = "SELECT manga.id_manga, lib_genre, nom_dessinateur, nom_scenariste, prix, titre, couverture ";
@@ -204,6 +204,22 @@ namespace WebMangaASPCore.Models.Dao
 			catch (MonException e)
 			{
 				throw new MonException(er.MessageUtilisateur(), er.MessageApplication(), e.Message);
+			}
+		}
+
+		public static void RemoveManga(string id)
+		{
+			try
+			{
+				int id_manga = int.Parse(id);
+				String mysql = "DELETE FROM manga WHERE id_manga = " + id_manga;
+				mysql += " limit 1";
+
+				DBInterface.Execute_Transaction(mysql);
+			}
+			catch (MonException erreur)
+			{
+				throw erreur;
 			}
 		}
 	}

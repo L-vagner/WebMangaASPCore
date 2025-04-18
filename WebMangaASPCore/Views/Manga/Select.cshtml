@@ -1,0 +1,40 @@
+﻿@model DataTable;
+@using System.Data;
+@{
+	ViewBag.Title = "Selectioner";
+	Layout = "~/Views/Shared/_LayoutManga.cshtml";
+}
+<h2>Modifier un manga</h2>
+
+@if (Model != null)
+{
+	@using (Html.BeginForm("Select", "Manga", FormMethod.Post))
+	{
+		<div class="card col-8 mx-auto mt-5">
+			<div class="card-body">
+				<h3 class="card-title">Modifier un Manga</h3>
+				<div class="form-horizontal">
+					<hr />
+					<div class="input-group mb-3">
+						<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+							<span class="input-group-text" id="id-manga-input">Id Manga : </span>
+						</div>
+						<select name="id_manga">
+							@foreach (DataRow manga in Model.Rows)
+							{
+								<option value="@manga[0]">
+									@manga[5]
+								</option>
+							}
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="col-md-offset-2 col-md-10">
+							<input type="submit" value="Modifier" class="btn btn-primary" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

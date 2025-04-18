@@ -70,7 +70,7 @@
 							@{
 								foreach (DataRow scenariste in ViewBag.Scenaristes.Rows)
 								{
-									if (Model.Id_scenariste== (int)scenariste[0])
+									if (Model.Id_scenariste == (int)scenariste[0])
 									{
 										<option selected="selected" value="@scenariste[0]">
 											@scenariste[1]
